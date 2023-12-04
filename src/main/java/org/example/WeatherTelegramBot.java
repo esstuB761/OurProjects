@@ -53,7 +53,7 @@ public class WeatherTelegramBot extends TelegramLongPollingBot {
         }
     }
     private void sendCitiesList() {
-        ///ДОДЕЛАЮ ПОТОМ
+        //todo
     }
     private void processNormalMessage(long chatId, String messageText) {
         sendResponse(chatId, "Увы, но программист, который меня писал, слишком ленив, чтобы расписать более сложные алгоритмы обработки сообщений, поэтому я не могу разобрать это: " + messageText);
