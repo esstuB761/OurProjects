@@ -44,9 +44,14 @@ public class WeatherTelegramBot extends TelegramLongPollingBot {
                     sendResponse(update.getMessage().getChatId(), "Вот список доступных вам команд:\n" +
                             BotCommand.ПОГОДА.getCommandText() + " <Город> - узнать погоду в определенном городе\n" +
                             BotCommand.КОМАНДЫ.getCommandText() + " - вывести список всех доступных команд\n");
-                } else if (lowerText.equals("пока")) {
+                }
+                else if (lowerText.equals("пока")) {
                     sendResponse(update.getMessage().getChatId(), "До встречи!");
-                } else if(!lowerText.equals(BotCommand.СТАРТ.getCommandText())){
+                }
+                else if (lowerText.equals("фио")) {
+                    sendResponse(update.getMessage().getChatId(), "Бурлакова Ангелина");
+                }
+                else if(!lowerText.equals(BotCommand.СТАРТ.getCommandText())){
                     processNormalMessage(update.getMessage().getChatId(), lowerText);
                 }
             }
