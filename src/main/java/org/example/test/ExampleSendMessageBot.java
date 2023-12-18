@@ -1,5 +1,6 @@
 package org.example.test;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -12,5 +13,8 @@ public class ExampleSendMessageBot {
         ).openConnection();
         httpConnection.getInputStream();
         httpConnection.disconnect();
+
+        JFrame window = new JFrame("test");
+        window.setVisible(true);
     }
 }
