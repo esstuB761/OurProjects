@@ -13,7 +13,13 @@ import java.net.URL;
 
 public class WeatherTelegramBot extends TelegramLongPollingBot {
 
-    private static final String OPEN_WEATHER_MAP_API_KEY = "0bc5437ada44371f94bb4ae0ac99cae2";
+    private static final String[] films = {
+            "Убийство священного оленя",
+            "Лобстер",
+            "Фабельманы",
+            // Добавьте другие фильмы
+    };
+    private static final String OPEN_WEATHER_MAP_API_KEY = "6862442813:AAFjEvE-LgzXcEtlRxF8Q_f7Bin3i-c1Pi0";
     private boolean startCommandProcessed = false;
 
     @Override
@@ -24,7 +30,7 @@ public class WeatherTelegramBot extends TelegramLongPollingBot {
 
                 if (!startCommandProcessed) {
                     if (messageText.equals(BotCommand.СТАРТ.getCommandText())) {
-                        sendResponse(update.getMessage().getChatId(), "Привет! Я бот WeatherBot - погодный бот. Используйте /погода <Город>, чтобы узнать погоду.");
+                        sendResponse(update.getMessage().getChatId(), "Привет! Я кино-бот!Введите /comands ");
                         startCommandProcessed = true;
                     } else {
                         return;
@@ -41,6 +47,16 @@ public class WeatherTelegramBot extends TelegramLongPollingBot {
                         sendErrorMessage(update.getMessage().getChatId(), "Не указан город. Используйте /погода <Город>");
                     }
                 }
+                else if (lowerText.startsWith(BotCommand.ФИЛЬМ.getCommandText())) {
+                    String film = lowerText.replace(BotCommand.ФИЛЬМ.getCommandText(), "").trim();
+                    if (!film.isEmpty()) {
+                        sendResponse(update.getMessage().getChatId(), "Посмотрите: " + film);
+                    } else {
+                        // Вызываем метод для получения случайного фильма
+                        String randomFilm = getRandomFilm();
+                        sendResponse(update.getMessage().getChatId(), "Посмотрите: " + randomFilm);
+                    }
+                }
                 else if (lowerText.startsWith(BotCommand.ФИО.getCommandText())) {
                     String Fio = lowerText.replace(BotCommand.ФИО.getCommandText(), "").trim();
                     if (!Fio.isEmpty()) {
@@ -49,10 +65,17 @@ public class WeatherTelegramBot extends TelegramLongPollingBot {
                         sendErrorMessage(update.getMessage().getChatId(), "Не введено ФИО. Используйте /фио <Ваше ФИО>");
                     }
                 }
+                else if (lowerText.startsWith(BotCommand.ФИЛЬМ.getCommandText())) {
+                    String Film = lowerText.replace(BotCommand.ФИЛЬМ.getCommandText(), "").trim();
+                    if (!Film.isEmpty()) {
+                        sendResponse(update.getMessage().getChatId(),"Посмотрите: " + Film);
+                    }
+                }
                 else if (lowerText.equals(BotCommand.КОМАНДЫ.getCommandText())) {
                     sendResponse(update.getMessage().getChatId(), "Вот список доступных вам команд:\n" +
-                            BotCommand.ПОГОДА.getCommandText() + " <Город> - узнать погоду в определенном городе\n" +
-                            BotCommand.КОМАНДЫ.getCommandText() + " - вывести список всех доступных команд\n");
+                            BotCommand.КОМАНДЫ.getCommandText() + " - вывести список всех доступных команд\n"+
+                            BotCommand.ФИО.getCommandText()+" - ввести ваше ФИО\n"+
+                            BotCommand.ФИЛЬМ.getCommandText()+" - вывести рандомный фильм\n");
                 } else if (lowerText.equals("пока")) {
                     sendResponse(update.getMessage().getChatId(), "До встречи!");
                 } else if(!lowerText.equals(BotCommand.СТАРТ.getCommandText())){
@@ -136,14 +159,23 @@ public class WeatherTelegramBot extends TelegramLongPollingBot {
         }
     }
 
+    private String getRandomFilm() {
+        if (films.length > 0) {
+            int randomIndex = (int) (Math.random() * films.length);
+            return films[randomIndex];
+        } else {
+            return "Список фильмов пуст.";
+        }
+    }
+
     @Override
     public String getBotUsername() {
-        return "weatherTelegramBot7189_bot";
+        return "FilmGenerate_bot";
     }
 
     @Override
     public String getBotToken() {
-        return "6937427692:AAHlAhhoKk0yCgGWALnfdVuSMPXqr8H2_h4";
+        return "6862442813:AAFjEvE-LgzXcEtlRxF8Q_f7Bin3i-c1Pi0";
     }
 }
 
