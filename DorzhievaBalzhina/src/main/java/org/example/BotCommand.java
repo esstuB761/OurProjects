@@ -2,9 +2,12 @@ package org.example;
 
 public enum BotCommand {
     ПОГОДА("/погода"),
-    КОМАНДЫ("/команды"),
-    ФИО("/фио"),
-    СТАРТ("/start");
+    КОМАНДЫ("/comands"),
+    ФИО("/fio"),
+    СТАРТ("/start"),
+
+    ФИЛЬМ("/film");
+
 
 
     private final String commandText;
