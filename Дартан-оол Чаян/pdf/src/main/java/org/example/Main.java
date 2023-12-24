@@ -288,6 +288,7 @@ public class Main {
         }
     }
 
+
     private static void generatePdf(PDDocument pdDoc, BaseTable table, PDFont font) throws IOException {
         for (Consumer<String> consumer : consumers) {
             Row<PDPage> row = table.createRow(0);
@@ -310,11 +311,25 @@ public class Main {
 
         InputStream imageStream = Main.class.getClassLoader().getResourceAsStream("picture.png");
         assert imageStream != null;
-        Image img =  new Image(ImageIO.read(imageStream)).scaleByWidth(100);
+        BufferedImage originalImage = ImageIO.read(imageStream);
+
+        // Увеличение масштаба изображения в два раза
+        float scale = 0.5f;
+        Image img =  new Image(originalImage).scaleByWidth(originalImage.getWidth() * scale);
+
+        // Получение размеров изображения после изменения масштаба
+        float imageWidth = img.getWidth();
+        float imageHeight = img.getHeight();
+
+        // Определение координат для центрирования изображения
+        float centerX = (pageWidth - imageWidth) / 2;
+        float centerY = (BOTTOM_MARGIN + imageHeight) / 2;
+
+        // Размещение изображения по центру
+        img.draw(pdDoc, pcos, centerX, centerY);
 
         table.draw();
-        img.draw(pdDoc, pcos, 250, 200);
-        drawQR(pdDoc, pcos, 250 , 75);
+        drawQR(pdDoc, pcos, 250, 75);
         cos.close();
         try {
             File file = new File("File.pdf");
@@ -325,6 +340,8 @@ public class Main {
             e.printStackTrace();
         }
     }
+
+
 
     static private void createCell(Row<PDPage> row, int width, String value, PDFont font) {
         Cell<PDPage> cell = row.createCell(width, value);
@@ -357,7 +374,7 @@ public class Main {
     }
 
     private static void drawQR(PDDocument pdDoc, PageContentStreamOptimized stream, float x, float y) throws IOException {
-        String stringBuf = "https://www.youtube.com/";
+        String stringBuf = "https://www.youtube.com/shorts/IUk5qc_NyU0";
         InputStream inputStream = new ByteArrayInputStream(generateQR(stringBuf));
         BufferedImage bufImage = ImageIO.read(inputStream);
         Image img = new Image(bufImage);
